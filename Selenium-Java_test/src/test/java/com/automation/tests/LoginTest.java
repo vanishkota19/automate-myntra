@@ -20,15 +20,16 @@ public class LoginTest extends BaseTest {
         String password = excelDataProvider.getTestData("LoginTest", "ValidPassword");
         
         // Create login module
-        LoginModule loginModule = new LoginModule(driver, excelDataProvider);
+        LoginModule loginModule = new LoginModule(driver);
         
         // Execute login steps
-        loginModule.navigateToLoginPage()
-                .login(username, password);
+        loginModule.navigateToLoginPage();
+        loginModule.enterUsername(username);
+        loginModule.enterPassword(password);
+        loginModule.clickLoginButton();
                 
-        // Assert login success (this is a placeholder - would need actual verification)
-        String expectedTitle = excelDataProvider.getTestData("LoginTest", "DashboardTitle");
-        Assert.assertEquals(driver.getTitle(), expectedTitle, "Dashboard title does not match expected");
+        // Verify successful login
+        loginModule.verifySuccessfulLogin();
     }
     
     /**
@@ -42,15 +43,16 @@ public class LoginTest extends BaseTest {
         String expectedError = excelDataProvider.getTestData("LoginTest", "ErrorMessage");
         
         // Create login module
-        LoginModule loginModule = new LoginModule(driver, excelDataProvider);
+        LoginModule loginModule = new LoginModule(driver);
         
         // Execute login steps
-        loginModule.navigateToLoginPage()
-                .login(username, password);
+        loginModule.navigateToLoginPage();
+        loginModule.enterUsername(username);
+        loginModule.enterPassword(password);
+        loginModule.clickLoginButton();
                 
-        // Assert error message
-        Assert.assertTrue(loginModule.verifyErrorMessage(expectedError), 
-                "Error message not displayed or does not match expected");
+        // Verify error message
+        loginModule.verifyErrorMessage(expectedError);
     }
     
     /**
@@ -64,14 +66,15 @@ public class LoginTest extends BaseTest {
         String expectedError = excelDataProvider.getTestData("LoginTest", "EmptyCredentialsError");
         
         // Create login module
-        LoginModule loginModule = new LoginModule(driver, excelDataProvider);
+        LoginModule loginModule = new LoginModule(driver);
         
         // Execute login steps
-        loginModule.navigateToLoginPage()
-                .login(emptyUsername, emptyPassword);
+        loginModule.navigateToLoginPage();
+        loginModule.enterUsername(emptyUsername);
+        loginModule.enterPassword(emptyPassword);
+        loginModule.clickLoginButton();
                 
-        // Assert error message
-        Assert.assertTrue(loginModule.verifyErrorMessage(expectedError), 
-                "Error message not displayed or does not match expected");
+        // Verify error message
+        loginModule.verifyErrorMessage(expectedError);
     }
 } 

@@ -15,10 +15,22 @@ public class MyntraTest extends BaseTest {
      */
     @Test(description = "Test adding a product to the cart on Myntra")
     public void testAddProductToCart() {
-        // Get product search term from Excel (or use a default)
-        String productSearchTerm = excelDataProvider.getTestData("MyntraTest", "ProductSearchTerm");
-        if (productSearchTerm == null || productSearchTerm.startsWith("default_")) {
-            productSearchTerm = "Men T-shirts"; // Default search term
+        // Get test data from Excel
+        String searchTerm = excelDataProvider.getTestData("testAddProductToCart", "searchTerm");
+        String productIndexStr = excelDataProvider.getTestData("testAddProductToCart", "productIndex");
+        
+        // Use default values if Excel data is not available
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            searchTerm = "men tshirt"; // Default search term
+        }
+        
+        int productIndex = 1; // Default to first product
+        if (productIndexStr != null && !productIndexStr.isEmpty()) {
+            try {
+                productIndex = Integer.parseInt(productIndexStr);
+            } catch (NumberFormatException e) {
+                // If parsing fails, use default value
+            }
         }
         
         // Create Myntra module
@@ -26,8 +38,8 @@ public class MyntraTest extends BaseTest {
         
         // Execute Myntra shopping flow
         myntraModule.navigateToMyntra()
-                .searchProduct(productSearchTerm)
-                .selectProduct(1) // Select the first product
+                .searchProduct(searchTerm)
+                .selectProduct(productIndex) // Select the product from Excel data
                 .selectSize()     // Select a size if available
                 .addToCart()      // Add to cart
                 .goToCart();      // Go to cart
