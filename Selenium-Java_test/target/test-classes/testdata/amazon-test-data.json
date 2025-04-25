@@ -1,0 +1,36 @@
+{
+  "searchTests": [
+    {
+      "searchKeyword": "tshirt",
+      "productIndex": 0,
+      "expectedTitle": "tshirt"
+    },
+    {
+      "searchKeyword": "shoes",
+      "productIndex": 1,
+      "expectedTitle": "shoes"
+    },
+    {
+      "searchKeyword": "watch",
+      "productIndex": 2,
+      "expectedTitle": "watch"
+    }
+  ],
+  "productTests": [
+    {
+      "productName": "tshirt",
+      "quantity": 2,
+      "expectedPrice": "500"
+    },
+    {
+      "productName": "shoes",
+      "quantity": 1,
+      "expectedPrice": "1000"
+    },
+    {
+      "productName": "watch",
+      "quantity": 1,
+      "expectedPrice": "2000"
+    }
+  ]
+} 
