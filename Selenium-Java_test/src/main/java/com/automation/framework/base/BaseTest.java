@@ -40,10 +40,12 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         
-        String url = config.getProperty("app.url");
-        if (url != null && !url.isEmpty()) {
-            driver.get(url);
+        // Get URL from config or use default
+        String url = config != null ? config.getProperty("app.url") : null;
+        if (url == null || url.isEmpty()) {
+            url = "https://www.myntra.com/"; // Default URL
         }
+        driver.get(url);
     }
     
     @AfterMethod
@@ -91,8 +93,16 @@ public class BaseTest {
         try {
             FileInputStream fis = new FileInputStream("src/main/resources/config.properties");
             prop.load(fis);
+            fis.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Warning: Could not load config.properties. Using default values.");
+            // Set default values
+            prop.setProperty("app.url", "https://www.myntra.com/");
+            prop.setProperty("implicit.wait", "10");
+            prop.setProperty("explicit.wait", "20");
+            prop.setProperty("page.load.timeout", "30");
+            prop.setProperty("browser.headless", "false");
+            prop.setProperty("browser.incognito", "false");
         }
         return prop;
     }

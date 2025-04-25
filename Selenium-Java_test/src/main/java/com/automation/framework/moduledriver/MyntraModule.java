@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 /**
  * Module driver for Myntra product selection and cart operations
@@ -19,14 +21,7 @@ public class MyntraModule extends BasePage {
     
     private ExcelDataProvider excelData;
     private final String PAGE_NAME = "MyntraPage";
-    
-    // Hardcoded XPaths for Myntra elements
-    private static final String SEARCH_BOX_XPATH = "//input[@class='desktop-searchBar' or @placeholder='Search for products, brands and more']";
-    private static final String PRODUCT_ITEM_BASE_XPATH = "(//li[contains(@class, 'product-base')])";
-    private static final String SIZE_OPTION_XPATH = "//button[contains(@class, 'size-buttons-size-button') or contains(@class, 'size-variant-button')][1]";
-    private static final String ADD_TO_CART_BUTTON_XPATH = "//div[contains(@class,'pdp-add-to-bag') or @class='btn-gold' or contains(text(),'ADD TO BAG')]";
-    private static final String CART_ICON_XPATH = "//span[contains(@class,'myntraweb-sprite desktop-iconBag')]";
-    private static final String CART_ITEM_XPATH = "//div[contains(@class,'itemContainer')]";
+    private WebDriverWait wait;
     
     /**
      * Constructor
@@ -36,6 +31,7 @@ public class MyntraModule extends BasePage {
     public MyntraModule(WebDriver driver, ExcelDataProvider excelData) {
         super(driver);
         this.excelData = excelData;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
     
     /**
@@ -56,8 +52,9 @@ public class MyntraModule extends BasePage {
      * @return this instance for method chaining
      */
     public MyntraModule searchProduct(String searchTerm) {
-        // Use hardcoded XPath instead of getting from Excel
-        WebElement searchBox = findElementByXpath(SEARCH_BOX_XPATH);
+        // Get XPath from Excel
+        String searchBoxXpath = excelData.getXPath(PAGE_NAME, "searchBox");
+        WebElement searchBox = findElementByXpath(searchBoxXpath);
         sendKeys(searchBox, searchTerm);
         
         // Press enter to search using Actions class
@@ -75,8 +72,8 @@ public class MyntraModule extends BasePage {
      * @return this instance for method chaining
      */
     public MyntraModule selectProduct(int productIndex) {
-        // Use hardcoded XPath with index
-        String productXpath = PRODUCT_ITEM_BASE_XPATH + "[" + productIndex + "]";
+        // Get XPath from Excel and replace index placeholder
+        String productXpath = excelData.getXPath(PAGE_NAME, "productItem").replace("{index}", String.valueOf(productIndex));
         WebElement product = findElementByXpath(productXpath);
         
         // Scroll to element
@@ -108,8 +105,9 @@ public class MyntraModule extends BasePage {
      */
     public MyntraModule selectSize() {
         try {
-            // Use hardcoded XPath
-            WebElement sizeElement = findElementByXpath(SIZE_OPTION_XPATH);
+            // Get XPath from Excel
+            String sizeXpath = excelData.getXPath(PAGE_NAME, "sizeOption");
+            WebElement sizeElement = findElementByXpath(sizeXpath);
             click(sizeElement);
             safeLog(Status.INFO, "Selected size");
         } catch (Exception e) {
@@ -124,8 +122,9 @@ public class MyntraModule extends BasePage {
      */
     public MyntraModule addToCart() {
         try {
-            // Use hardcoded XPath
-            WebElement addToCartButton = findElementByXpath(ADD_TO_CART_BUTTON_XPATH);
+            // Get XPath from Excel
+            String addToCartXpath = excelData.getXPath(PAGE_NAME, "addToCartButton");
+            WebElement addToCartButton = findElementByXpath(addToCartXpath);
             
             // Wait for element to be clickable
             wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
@@ -158,8 +157,9 @@ public class MyntraModule extends BasePage {
      * @return this instance for method chaining
      */
     public MyntraModule goToCart() {
-        // Use hardcoded XPath
-        WebElement cartIcon = findElementByXpath(CART_ICON_XPATH);
+        // Get XPath from Excel
+        String cartIconXpath = excelData.getXPath(PAGE_NAME, "cartIcon");
+        WebElement cartIcon = findElementByXpath(cartIconXpath);
         click(cartIcon);
         waitForPageLoad();
         
@@ -172,9 +172,11 @@ public class MyntraModule extends BasePage {
      * @return true if product appears in cart
      */
     public boolean verifyProductInCart() {
-        // Use hardcoded XPath
+        // Get XPath from Excel
+        String cartItemXpath = excelData.getXPath(PAGE_NAME, "cartItem");
+        
         try {
-            WebElement cartItem = findElementByXpath(CART_ITEM_XPATH);
+            WebElement cartItem = findElementByXpath(cartItemXpath);
             boolean isPresent = cartItem.isDisplayed();
             
             if (isPresent) {
