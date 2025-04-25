@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="1" parallel="tests" name="Failed suite [Automation Test Suite]" guice-stage="DEVELOPMENT" verbose="0">
+  <listeners>
+    <listener class-name="com.automation.framework.listeners.TestListener"/>
+  </listeners>
+  <test thread-count="1" parallel="tests" name="Login Tests - Chrome(failed)" verbose="0">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="com.automation.tests.LoginTest">
+        <methods>
+          <include name="testInvalidLogin"/>
+          <include name="testEmptyCredentials"/>
+          <include name="tearDownSuite"/>
+          <include name="testValidLogin"/>
+          <include name="tearDown"/>
+          <include name="setUp"/>
+          <include name="setUpTest"/>
+        </methods>
+      </class> <!-- com.automation.tests.LoginTest -->
+    </classes>
+  </test> <!-- Login Tests - Chrome(failed) -->
+</suite> <!-- Failed suite [Automation Test Suite] -->
