@@ -46,8 +46,8 @@ A modular automation framework built with Selenium WebDriver, Java, TestNG, Mave
 │           └── testdata
 │               ├── README_TestData.md
 │               ├── README_XPathRepo.md
-│               ├── TestData.xlsx (to be created)
-│               └── XPathRepo.xlsx (to be created)
+│               ├── TestData.xlsx
+│               └── XPathRepo.xlsx
 ├── pom.xml
 ├── testng.xml
 └── README.md
@@ -124,5 +124,5 @@ Run the `testng.xml` file directly from your IDE.
 
 ## Authors
 
-- Your Name - Vanish Kota
+-Vanish Kota
 

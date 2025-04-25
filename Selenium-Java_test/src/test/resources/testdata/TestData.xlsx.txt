@@ -1,0 +1,25 @@
+This is a placeholder for the Excel file. In a real project, you would create an Excel file with the following structure:
+
+Sheet: AmazonSearch
+Columns:
+- SearchKeyword
+- ProductIndex
+- ExpectedTitle
+
+Sample data:
+1. tshirt, 0, tshirt
+2. shoes, 1, shoes
+3. watch, 2, watch
+
+Sheet: AmazonProduct
+Columns:
+- ProductName
+- Quantity
+- ExpectedPrice
+
+Sample data:
+1. tshirt, 2, 500
+2. shoes, 1, 1000
+3. watch, 1, 2000
+
+To use this data, create an Excel file with the above structure and save it as TestData.xlsx in the src/test/resources/testdata/ directory. 
